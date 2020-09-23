@@ -17,10 +17,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet var avatarView: UIView!
     @IBOutlet var avatarLabel: UILabel!
     
-
-//    init() {
-//        у меня нет идей на этот счет. Точно уверена, что распечатать свойства кнопки не получится. Возможно дело в том, что она еще не создана и ее нельзя инициализировать?
-//    }
+    
+    //    init() {
+    //        у меня нет идей на этот счет. Точно уверена, что распечатать свойства кнопки не получится. Возможно дело в том, что она еще не создана и ее нельзя инициализировать?
+    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +70,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         alertController.addAction(cancelAction)
         alertController.addAction(selectPhoto)
         alertController.addAction(takePhoto)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         self.present(alertController, animated: true, completion: nil)
     }
     

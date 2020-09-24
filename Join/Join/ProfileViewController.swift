@@ -39,13 +39,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     private func firstLetter(name: String) -> String {
-        let fullName = name
-        let full: [String] = fullName.components(separatedBy: " ")
-        guard let first = full[0].first else { return "" }
-        guard let last = full[1].first else { return "" }
-        return String(first) + String(last)
+        let components = name.components(separatedBy: " ")
+        if components.count == 0 {
+            return ""
+        } else if components.count == 1 {
+            let first = components[0].first
+            return String(first ?? " ")
+        } else {
+            let first = components[0].first
+            let last = components[1].first
+            return String(first ?? " ") + String(last ?? " ")
+        }
     }
-    
+
     @IBAction func setupAvatar(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in

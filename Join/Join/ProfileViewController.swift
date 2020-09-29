@@ -24,12 +24,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        avatarView.makeRounded()
         userNameLabel.text = "Tatiana Ampilogova"
         userInfoLabel.text = "About me"
         avatarLabel.text = firstLetter(name: userNameLabel.text ?? "")
-        saveButton.layer.cornerRadius = saveButton.bounds.height / 2.8
         print("viewDidLoad\(editButton.frame)")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        avatarView.makeRounded()
+        saveButton.layer.cornerRadius = 16
+        saveButton.layer.masksToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,18 +69,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             self.present(imagePicker, animated: true, completion: nil)
         })
-        let takePhoto = UIAlertAction(title: "Take phoro", style: .default, handler: { _ in
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = true
-            
-            self.present(imagePicker, animated: true, completion: nil)
-        })
-        
         alertController.addAction(cancelAction)
         alertController.addAction(selectPhoto)
-        alertController.addAction(takePhoto)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let takePhoto = UIAlertAction(title: "Take phoro", style: .default, handler: { _ in
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                imagePicker.allowsEditing = true
+                
+                self.present(imagePicker, animated: true, completion: nil)
+            })
+            alertController.addAction(takePhoto)
+        }
         
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = self.view

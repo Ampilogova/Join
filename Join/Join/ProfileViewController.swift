@@ -9,30 +9,34 @@ import UIKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet var avatarButton: UIButton!
     @IBOutlet var editButton: UIButton!
     @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var userInfoLabel: UILabel!
     @IBOutlet var saveButton: UIButton!
-    @IBOutlet var avatarView: UIView!
-    @IBOutlet var avatarLabel: UILabel!
+    @IBOutlet var avatarContainerView: UIView!
     
-    
-    //    init() {
-    //        у меня нет идей на этот счет. Точно уверена, что распечатать свойства кнопки не получится. Возможно дело в том, что она еще не создана и ее нельзя инициализировать?
-    //    }
+    let avatarView = AvatarView.fromNib()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         userNameLabel.text = "Tatiana Ampilogova"
         userInfoLabel.text = "About me"
-        avatarLabel.text = firstLetter(name: userNameLabel.text ?? "")
+        avatarView.configure(userNameLabel.text ?? "")
+        avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
         print("viewDidLoad\(editButton.frame)")
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        avatarView.makeRounded()
+        avatarContainerView.makeRounded()
+        avatarContainerView.addSubview(avatarView)
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            avatarView.leadingAnchor.constraint(equalTo: avatarContainerView.leadingAnchor),
+            avatarView.trailingAnchor.constraint(equalTo: avatarContainerView.trailingAnchor),
+            avatarView.topAnchor.constraint(equalTo: avatarContainerView.topAnchor),
+            avatarView.bottomAnchor.constraint(equalTo: avatarContainerView.bottomAnchor)
+        ])
         saveButton.layer.cornerRadius = 16
         saveButton.layer.masksToBounds = true
     }
@@ -40,24 +44,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("viewDidAppear\(editButton.frame)")
-        //размеры разные. Я думаю дело в том что, во viewDidLoad создаются объекты и размер печается до фактического построения, а во viewDidAppear отображается уже правильная геометрия объектов согласно размеру экрана.
     }
     
-    private func firstLetter(name: String) -> String {
-        let components = name.components(separatedBy: " ")
-        if components.count == 0 {
-            return ""
-        } else if components.count == 1 {
-            let first = components[0].first
-            return String(first ?? " ")
-        } else {
-            let first = components[0].first
-            let last = components[1].first
-            return String(first ?? " ") + String(last ?? " ")
-        }
-    }
-
-    @IBAction func setupAvatar(_ sender: Any) {
+    @objc func setupAvatar(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
         })
@@ -95,7 +84,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            avatarButton.setImage(pickedImage, for: .normal)
+            avatarView.configure(pickedImage)
         }
         dismiss(animated: true, completion: nil)
     }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VcO-yV-zoL" customClass="AvatarView" customModule="Join" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTn-T5-YAc">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="120"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbX-OK-gz8">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="hJK-ON-RH6"/>
+            <color key="backgroundColor" red="0.89411764709999997" green="0.90980392160000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="fTn-T5-YAc" secondAttribute="bottom" id="0gW-dK-zgg"/>
+                <constraint firstItem="dbX-OK-gz8" firstAttribute="top" secondItem="VcO-yV-zoL" secondAttribute="top" id="5oI-95-dwL"/>
+                <constraint firstAttribute="bottom" secondItem="dbX-OK-gz8" secondAttribute="bottom" id="Els-XC-Ld5"/>
+                <constraint firstItem="fTn-T5-YAc" firstAttribute="top" secondItem="VcO-yV-zoL" secondAttribute="top" id="FP4-zo-4NO"/>
+                <constraint firstItem="fTn-T5-YAc" firstAttribute="leading" secondItem="VcO-yV-zoL" secondAttribute="leading" id="O2d-UP-Ywa"/>
+                <constraint firstAttribute="trailing" secondItem="dbX-OK-gz8" secondAttribute="trailing" id="Y8V-Dx-TRA"/>
+                <constraint firstAttribute="trailing" secondItem="fTn-T5-YAc" secondAttribute="trailing" id="gHM-H4-hUe"/>
+                <constraint firstItem="dbX-OK-gz8" firstAttribute="leading" secondItem="VcO-yV-zoL" secondAttribute="leading" id="z8j-9C-ZbO"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="avatarButton" destination="dbX-OK-gz8" id="B0r-Vc-CYw"/>
+                <outlet property="avatarLabel" destination="fTn-T5-YAc" id="Tw6-uV-Wya"/>
+            </connections>
+            <point key="canvasLocation" x="-338" y="398"/>
+        </view>
+    </objects>
+</document>

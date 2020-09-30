@@ -61,32 +61,10 @@
                             </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbS-ai-yMJ">
                                 <rect key="frame" x="45.5" y="45" width="284" height="284"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svu-Ua-es6">
-                                        <rect key="frame" x="0.0" y="0.0" width="284" height="284"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="120"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GmB-cL-9Sw">
-                                        <rect key="frame" x="0.0" y="0.0" width="284" height="284"/>
-                                        <connections>
-                                            <action selector="setupAvatar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cQi-V1-28h"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" red="0.89411764705882346" green="0.90980392156862744" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="284" id="1Q8-qV-HCw"/>
-                                    <constraint firstItem="Svu-Ua-es6" firstAttribute="leading" secondItem="BbS-ai-yMJ" secondAttribute="leading" id="299-A8-qNA"/>
-                                    <constraint firstItem="Svu-Ua-es6" firstAttribute="top" secondItem="BbS-ai-yMJ" secondAttribute="top" id="3BA-cc-ocZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="Svu-Ua-es6" secondAttribute="trailing" id="9Mb-wj-sn2"/>
                                     <constraint firstAttribute="width" secondItem="BbS-ai-yMJ" secondAttribute="height" multiplier="1:1" id="EXk-F6-NWS"/>
-                                    <constraint firstAttribute="bottom" secondItem="GmB-cL-9Sw" secondAttribute="bottom" id="Jq7-2v-Jwq"/>
-                                    <constraint firstItem="GmB-cL-9Sw" firstAttribute="top" secondItem="BbS-ai-yMJ" secondAttribute="top" id="UpA-0Q-LHa"/>
-                                    <constraint firstItem="GmB-cL-9Sw" firstAttribute="leading" secondItem="BbS-ai-yMJ" secondAttribute="leading" id="VRG-iN-y3F"/>
-                                    <constraint firstAttribute="trailing" secondItem="GmB-cL-9Sw" secondAttribute="trailing" id="gyM-1b-seh"/>
-                                    <constraint firstAttribute="bottom" secondItem="Svu-Ua-es6" secondAttribute="bottom" id="v9a-yZ-C6O"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -111,9 +89,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="avatarButton" destination="GmB-cL-9Sw" id="1Mc-2G-ukj"/>
-                        <outlet property="avatarLabel" destination="Svu-Ua-es6" id="gWn-ub-ggI"/>
-                        <outlet property="avatarView" destination="BbS-ai-yMJ" id="nmG-5J-Pxp"/>
+                        <outlet property="avatarContainerView" destination="BbS-ai-yMJ" id="fmb-BT-0PE"/>
                         <outlet property="editButton" destination="DPG-mx-UH7" id="UjC-RI-aUW"/>
                         <outlet property="saveButton" destination="qeE-KR-c7d" id="8pB-Nr-hp9"/>
                         <outlet property="userInfoLabel" destination="lxa-Rt-6gV" id="w16-zq-wJG"/>

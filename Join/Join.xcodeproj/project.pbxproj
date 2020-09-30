@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */; };
+		CE28728825240111004FC310 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28728725240111004FC310 /* ChatCell.swift */; };
+		CE287295252402A6004FC310 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE287294252402A6004FC310 /* ChatCell.xib */; };
 		CE8EC80A2518166400925741 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC8092518166400925741 /* AppDelegate.swift */; };
 		CE8EC80C2518166400925741 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC80B2518166400925741 /* SceneDelegate.swift */; };
 		CE8EC80E2518166400925741 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC80D2518166400925741 /* ProfileViewController.swift */; };
@@ -36,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
+		CE28728725240111004FC310 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
+		CE287294252402A6004FC310 /* ChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
 		CE8EC8062518166400925741 /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8EC8092518166400925741 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE8EC80B2518166400925741 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +111,9 @@
 				CE8EC80B2518166400925741 /* SceneDelegate.swift */,
 				CE8EC80D2518166400925741 /* ProfileViewController.swift */,
 				CED81C9E25181D60000AB209 /* UIView.swift */,
+				CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */,
+				CE28728725240111004FC310 /* ChatCell.swift */,
+				CE287294252402A6004FC310 /* ChatCell.xib */,
 				CE8EC80F2518166400925741 /* Main.storyboard */,
 				CE8EC8122518166700925741 /* Assets.xcassets */,
 				CE8EC8142518166700925741 /* LaunchScreen.storyboard */,
@@ -235,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE8EC8162518166700925741 /* LaunchScreen.storyboard in Resources */,
+				CE287295252402A6004FC310 /* ChatCell.xib in Resources */,
 				CE8EC8132518166700925741 /* Assets.xcassets in Resources */,
 				CE8EC8112518166400925741 /* Main.storyboard in Resources */,
 			);
@@ -263,8 +273,10 @@
 			files = (
 				CED81C9F25181D60000AB209 /* UIView.swift in Sources */,
 				CE8EC80E2518166400925741 /* ProfileViewController.swift in Sources */,
+				CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */,
 				CE8EC80A2518166400925741 /* AppDelegate.swift in Sources */,
 				CE8EC80C2518166400925741 /* SceneDelegate.swift in Sources */,
+				CE28728825240111004FC310 /* ChatCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

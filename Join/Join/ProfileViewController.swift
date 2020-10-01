@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         userInfoLabel.text = "About me"
         avatarView.configure(userNameLabel.text ?? "")
         avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
-        print("viewDidLoad\(editButton.frame)")
     }
     
     override func viewDidLayoutSubviews() {
@@ -43,7 +42,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("viewDidAppear\(editButton.frame)")
     }
     
     @objc func setupAvatar(_ sender: Any) {

@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         userNameLabel.text = "Tatiana Ampilogova"
-        userInfoLabel.text = "About me"
+        userInfoLabel.text = "I am an enthusiastic, responsible, and hard-working iOS Developer (Swift) with 1+ years of experience in design, development, testing, and implementation of various iOS projects."
         avatarView.configure(userNameLabel.text ?? "")
         avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
     }

@@ -7,19 +7,27 @@
 
 import UIKit
 
-class ConversationViewController: UITableViewController {
+class ConversationViewController: UIViewController, UITableViewDelegate {
     
-    var messages = [MessageCellModel(text: "Hi!"),
-                    MessageCellModel(text: "How are you?")
+    var name: String?
+    
+    var messages = [MessageCellModel(text: "Hi!", type: .incoming),
+                    MessageCellModel(text: "Hello!", type: .outgoing),
+                    MessageCellModel(text: "How are you?", type: .outgoing),
+                    MessageCellModel(text: "I'm good! And you?", type: .incoming),
+                    MessageCellModel(text: "Can I borrow a book please? will return after the weekend", type: .incoming),
+                    MessageCellModel(text: "Sure", type: .outgoing),
+                    MessageCellModel(text: "I can bring a book to the dining room at 2 PM", type: .outgoing),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createNavigationBar()
         createTable()
     }
     
     private func createTable() {
-        let chatTableView = UITableView(frame: view.bounds, style: .plain)
+        let chatTableView = UITableView(frame: view.bounds, style: .grouped)
         chatTableView.delegate = self
         chatTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(chatTableView)
@@ -30,67 +38,35 @@ class ConversationViewController: UITableViewController {
         let nibOutgoingMessage = UINib(nibName: OutgoingMessageCell.className, bundle: nil)
         chatTableView.register(nibOutgoingMessage, forCellReuseIdentifier: OutgoingMessageCell.className)
         chatTableView.dataSource = self
+        chatTableView.separatorStyle = .none
+        chatTableView.rowHeight = UITableView.automaticDimension
+        chatTableView.backgroundColor = .white
     }
+    
+    private func createNavigationBar() {
+        navigationItem.largeTitleDisplayMode = .never
+        title = name
+    }
+}
 
-    // MARK: - Table view data source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+// MARK: - Table view data source
+extension ConversationViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if messages[indexPath.row].type == .incoming {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: IncomingMessageCell.className, for: indexPath) as? IncomingMessageCell else { preconditionFailure("IncomingMessageCell can't to dequeued") }
+            let model = messages[indexPath.row]
+            cell.configure(with: model)
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingMessageCell.className, for: indexPath) as? OutgoingMessageCell else { preconditionFailure("OutgoingMessageCell can't to dequeued") }
+            let model = messages[indexPath.row]
+            cell.configure(with: model)
+            return cell
+        }
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

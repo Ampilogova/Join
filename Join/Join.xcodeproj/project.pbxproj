@@ -20,6 +20,7 @@
 		CE83FF5C25266406002E7892 /* MessageCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF5B25266406002E7892 /* MessageCellModel.swift */; };
 		CE83FF64252667AF002E7892 /* OutgoingMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF63252667AF002E7892 /* OutgoingMessageCell.swift */; };
 		CE83FF69252667B9002E7892 /* OutgoingMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE83FF68252667B9002E7892 /* OutgoingMessageCell.xib */; };
+		CE83FF6F252695DB002E7892 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF6E252695DB002E7892 /* Configurable.swift */; };
 		CE8EC80A2518166400925741 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC8092518166400925741 /* AppDelegate.swift */; };
 		CE8EC80C2518166400925741 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC80B2518166400925741 /* SceneDelegate.swift */; };
 		CE8EC80E2518166400925741 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8EC80D2518166400925741 /* ProfileViewController.swift */; };
@@ -63,6 +64,7 @@
 		CE83FF5B25266406002E7892 /* MessageCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellModel.swift; sourceTree = "<group>"; };
 		CE83FF63252667AF002E7892 /* OutgoingMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessageCell.swift; sourceTree = "<group>"; };
 		CE83FF68252667B9002E7892 /* OutgoingMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingMessageCell.xib; sourceTree = "<group>"; };
+		CE83FF6E252695DB002E7892 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
 		CE8EC8062518166400925741 /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8EC8092518166400925741 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE8EC80B2518166400925741 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				CE8EC80D2518166400925741 /* ProfileViewController.swift */,
 				CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */,
 				CE83FF4A252662CE002E7892 /* ConversationViewController.swift */,
+				CE83FF6E252695DB002E7892 /* Configurable.swift */,
 				CE83FF50252663AE002E7892 /* Message */,
 				CE83FF412524243A002E7892 /* Model */,
 				CE83FF4F2526630B002E7892 /* ChatCell */,
@@ -347,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE83FF6F252695DB002E7892 /* Configurable.swift in Sources */,
 				CE83FF30252422A2002E7892 /* UIView.swift in Sources */,
 				CE8EC80E2518166400925741 /* ProfileViewController.swift in Sources */,
 				CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */,

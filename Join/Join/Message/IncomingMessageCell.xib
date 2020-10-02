@@ -16,10 +16,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="420" height="100"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI4-Rc-dOe">
-                        <rect key="frame" x="16" y="16" width="315" height="20.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI4-Rc-dOe">
+                        <rect key="frame" x="16" y="16" width="315" height="68"/>
+                        <attributedString key="attributedText">
+                            <fragment content="Label">
+                                <attributes>
+                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <font key="NSFont" size="16" name=".SFNS-Regular"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" firstLineHeadIndent="5" minimumLineHeight="25" tighteningFactorForTruncation="0.0" headerLevel="1"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -27,6 +34,7 @@
                     <constraint firstItem="AI4-Rc-dOe" firstAttribute="leading" secondItem="jcF-xZ-w1c" secondAttribute="leading" constant="16" id="7sa-YW-1X3"/>
                     <constraint firstItem="AI4-Rc-dOe" firstAttribute="top" secondItem="jcF-xZ-w1c" secondAttribute="top" constant="16" id="922-RT-tuA"/>
                     <constraint firstAttribute="trailing" secondItem="AI4-Rc-dOe" secondAttribute="trailing" constant="89" id="AIM-M5-3o3"/>
+                    <constraint firstAttribute="bottom" secondItem="AI4-Rc-dOe" secondAttribute="bottom" constant="16" id="kWx-s2-YBq"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -43,9 +43,14 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     private func createNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Join"
-        let settingsButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: nil)
+        let settingsButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: nil, action: nil)
         settingsButtonItem.tintColor = .gray
         self.navigationItem.leftBarButtonItem  = settingsButtonItem
+        
+        let profileButtonItem = UIBarButtonItem(image: UIImage(named: "user"), style: .plain, target: self, action: #selector(presentProfileButton))
+        profileButtonItem.tintColor = .gray
+        self.navigationItem.rightBarButtonItem = profileButtonItem
+        
     }
     
     private func createTable() {
@@ -78,7 +83,12 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
             return "Offline"
         }
     }
-    
+    @objc func presentProfileButton() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "profileSegue")
+//        present(vc, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "profileSegue", sender: nil)
+    }
 }
 
 // MARK: - Table view data source
@@ -102,6 +112,12 @@ extension ConversationsListViewController: UITableViewDataSource {
         
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = ConversationViewController()
+        viewController.name = groups[indexPath.section][indexPath.row].name
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
 }
 
 

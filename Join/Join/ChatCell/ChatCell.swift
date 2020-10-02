@@ -65,9 +65,10 @@ class ChatCell: UITableViewCell, ConfigurationView {
         isOnline = model.isOnline
         if isOnline == true {
             backgroundColor = .lightYellow
-        } else if hasUnreadMessages == true {
+        }
+        if hasUnreadMessages == true {
             messageLabel.text = model.message
-            messageLabel.font = .boldSystemFont(ofSize: 16)
+            messageLabel.font = .boldSystemFont(ofSize: 15)
         } else if model.message.isEmpty {
             messageLabel.text = "No messages yet"
             messageLabel.font = .italicSystemFont(ofSize: 15)
@@ -77,12 +78,4 @@ class ChatCell: UITableViewCell, ConfigurationView {
         }
         dateLabel.text = currentTime(date: model.date)
     }
-}
-
-// MARK: - ConfigurableView
-protocol ConfigurationView {
-    
-    associatedtype ConfigurationModel
-    
-    func configure(with model: ConfigurationModel)
 }

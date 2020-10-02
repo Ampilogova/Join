@@ -50,7 +50,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         let profileButtonItem = UIBarButtonItem(image: UIImage(named: "user"), style: .plain, target: self, action: #selector(presentProfileButton))
         profileButtonItem.tintColor = .gray
         self.navigationItem.rightBarButtonItem = profileButtonItem
-        
     }
     
     private func createTable() {
@@ -84,9 +83,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         }
     }
     @objc func presentProfileButton() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "profileSegue")
-//        present(vc, animated: true, completion: nil)
         self.performSegue(withIdentifier: "profileSegue", sender: nil)
     }
 }
@@ -117,7 +113,6 @@ extension ConversationsListViewController: UITableViewDataSource {
         viewController.name = groups[indexPath.section][indexPath.row].name
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
 }
 
 

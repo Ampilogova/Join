@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet var avatarContainerView: UIView!
     
     let avatarView = AvatarView.fromNib()
+    let themeService = ThemeService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         userInfoLabel.text = "I am an enthusiastic, responsible, and hard-working iOS Developer (Swift) with 1+ years of experience in design, development, testing, and implementation of various iOS projects."
         avatarView.configure(userNameLabel.text ?? "")
         avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
+        setupCurrentTheme()
+    }
+    
+    func setupCurrentTheme() {
+        view.backgroundColor = themeService.currentTheme().backgroundColor
+        userNameLabel.textColor = themeService.currentTheme().textColor
+        userInfoLabel.textColor = themeService.currentTheme().textColor
     }
     
     override func viewDidLayoutSubviews() {

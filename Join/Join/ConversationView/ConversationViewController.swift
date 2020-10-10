@@ -10,6 +10,7 @@ import UIKit
 class ConversationViewController: UIViewController, UITableViewDelegate {
     
     var name: String?
+    let themeService = ThemeService()
     
     var messages = [MessageCellModel(text: "Hi!", type: .incoming),
                     MessageCellModel(text: "Hello!", type: .outgoing),
@@ -40,7 +41,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate {
         chatTableView.dataSource = self
         chatTableView.separatorStyle = .none
         chatTableView.rowHeight = UITableView.automaticDimension
-        chatTableView.backgroundColor = .white
+        chatTableView.backgroundColor = themeService.currentTheme().backgroundColor
     }
     
     private func createNavigationBar() {

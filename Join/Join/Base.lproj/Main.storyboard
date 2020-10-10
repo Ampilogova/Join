@@ -22,11 +22,43 @@
                     <navigationItem key="navigationItem" id="PYb-CS-NCp"/>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="profileSegue" id="EDF-FM-NNf"/>
+                        <segue destination="IWg-KU-3jS" kind="show" identifier="settingSegue" id="pcJ-v0-Rui"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZH-iE-trw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-325.60000000000002" y="-628.33583208395805"/>
+        </scene>
+        <!--Themes View Controller-->
+        <scene sceneID="7My-wV-STb">
+            <objects>
+                <viewController id="IWg-KU-3jS" customClass="ThemesViewController" customModule="Join" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vdS-xx-nbo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wMx-6y-9KI">
+                                <rect key="frame" x="16" y="54" width="343" height="597"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YEc-AU-2hO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YEc-AU-2hO" firstAttribute="bottom" secondItem="wMx-6y-9KI" secondAttribute="bottom" constant="16" id="1B5-xw-RVq"/>
+                            <constraint firstItem="YEc-AU-2hO" firstAttribute="trailing" secondItem="wMx-6y-9KI" secondAttribute="trailing" constant="16" id="Kvw-pw-5aH"/>
+                            <constraint firstItem="wMx-6y-9KI" firstAttribute="top" secondItem="YEc-AU-2hO" secondAttribute="top" constant="10" id="UkP-hQ-CzC"/>
+                            <constraint firstItem="wMx-6y-9KI" firstAttribute="leading" secondItem="YEc-AU-2hO" secondAttribute="leading" constant="16" id="cgi-It-bwH"/>
+                            <constraint firstItem="wMx-6y-9KI" firstAttribute="centerX" secondItem="vdS-xx-nbo" secondAttribute="centerX" id="pKY-MK-qP4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="h8R-1W-uVK"/>
+                    <connections>
+                        <outlet property="stackView" destination="wMx-6y-9KI" id="56o-1W-bx9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wiw-p1-dCv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-307" y="68"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="nkW-58-MJK">

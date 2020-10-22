@@ -16,7 +16,7 @@ class AvatarView: UIView {
         super.awakeFromNib()
     }
     
-    private func firstLetter(name: String) -> String {
+    public func firstLetter(name: String) -> String {
         let components = name.components(separatedBy: " ")
         if components.count == 0 {
             return ""

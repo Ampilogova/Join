@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE13AED9252E3F18009F02B2 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13AED8252E3F18009F02B2 /* ThemesViewController.swift */; };
+		CE13AEE3252E4056009F02B2 /* ChatThemeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13AEE2252E4056009F02B2 /* ChatThemeView.xib */; };
+		CE23C195252E6B7600C264B8 /* ChatThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23C194252E6B7600C264B8 /* ChatThemeView.swift */; };
 		CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */; };
 		CE28728825240111004FC310 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28728725240111004FC310 /* ChatCell.swift */; };
 		CE287295252402A6004FC310 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE287294252402A6004FC310 /* ChatCell.xib */; };
+		CE4F830A252FD247009FA48D /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F8309252FD247009FA48D /* ThemeService.swift */; };
+		CE4F83122530EB50009FA48D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F83112530EB50009FA48D /* UserDefaults.swift */; };
+		CE5E9F09252E7C7B00AF61BE /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5E9F08252E7C7B00AF61BE /* ThemeModel.swift */; };
 		CE83FF30252422A2002E7892 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF2F252422A2002E7892 /* UIView.swift */; };
 		CE83FF3825242311002E7892 /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF3725242311002E7892 /* NSObject+Extensions.swift */; };
 		CE83FF3D25242435002E7892 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF3C25242435002E7892 /* UserData.swift */; };
@@ -51,9 +57,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE13AED8252E3F18009F02B2 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
+		CE13AEE2252E4056009F02B2 /* ChatThemeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatThemeView.xib; sourceTree = "<group>"; };
+		CE23C194252E6B7600C264B8 /* ChatThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThemeView.swift; sourceTree = "<group>"; };
 		CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		CE28728725240111004FC310 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		CE287294252402A6004FC310 /* ChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
+		CE4F8309252FD247009FA48D /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
+		CE4F83112530EB50009FA48D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		CE5E9F08252E7C7B00AF61BE /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		CE83FF2F252422A2002E7892 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		CE83FF3725242311002E7892 /* NSObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
 		CE83FF3C25242435002E7892 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -108,10 +120,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE13AEE7252E405D009F02B2 /* ChatThemeView */ = {
+			isa = PBXGroup;
+			children = (
+				CE23C194252E6B7600C264B8 /* ChatThemeView.swift */,
+				CE13AEE2252E4056009F02B2 /* ChatThemeView.xib */,
+			);
+			path = ChatThemeView;
+			sourceTree = "<group>";
+		};
 		CE83FF412524243A002E7892 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				CE83FF3C25242435002E7892 /* UserData.swift */,
+				CE5E9F08252E7C7B00AF61BE /* ThemeModel.swift */,
 				CE83FF5B25266406002E7892 /* MessageCellModel.swift */,
 			);
 			path = Model;
@@ -162,15 +184,13 @@
 			children = (
 				CE8EC8092518166400925741 /* AppDelegate.swift */,
 				CE8EC80B2518166400925741 /* SceneDelegate.swift */,
-				CE8EC80D2518166400925741 /* ProfileViewController.swift */,
-				CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */,
-				CE83FF4A252662CE002E7892 /* ConversationViewController.swift */,
-				CE83FF6E252695DB002E7892 /* Configurable.swift */,
-				CE83FF50252663AE002E7892 /* Message */,
+				CEC6A90A25311A3400E08B97 /* ProfileView */,
+				CEC6A90925311A0C00E08B97 /* ConversationView */,
+				CEC6A908253119C000E08B97 /* ConversationListView */,
+				CEC6A9062531197D00E08B97 /* Service */,
+				CEC6A9052531194C00E08B97 /* ThemesView */,
 				CE83FF412524243A002E7892 /* Model */,
-				CE83FF4F2526630B002E7892 /* ChatCell */,
 				CEAB3ECE2523ECEC00B4739F /* Extensions */,
-				CEAB3ECD2523ECD700B4739F /* AvatarView */,
 				CE8EC80F2518166400925741 /* Main.storyboard */,
 				CE8EC8122518166700925741 /* Assets.xcassets */,
 				CE8EC8142518166700925741 /* LaunchScreen.storyboard */,
@@ -210,10 +230,56 @@
 			isa = PBXGroup;
 			children = (
 				CE83FF2F252422A2002E7892 /* UIView.swift */,
+				CE4F83112530EB50009FA48D /* UserDefaults.swift */,
 				CE83FF4525265EBB002E7892 /* UIColor.swift */,
 				CE83FF3725242311002E7892 /* NSObject+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CEC6A9052531194C00E08B97 /* ThemesView */ = {
+			isa = PBXGroup;
+			children = (
+				CE13AED8252E3F18009F02B2 /* ThemesViewController.swift */,
+				CE13AEE7252E405D009F02B2 /* ChatThemeView */,
+			);
+			path = ThemesView;
+			sourceTree = "<group>";
+		};
+		CEC6A9062531197D00E08B97 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CE83FF6E252695DB002E7892 /* Configurable.swift */,
+				CE4F8309252FD247009FA48D /* ThemeService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		CEC6A908253119C000E08B97 /* ConversationListView */ = {
+			isa = PBXGroup;
+			children = (
+				CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */,
+				CE83FF4F2526630B002E7892 /* ChatCell */,
+			);
+			path = ConversationListView;
+			sourceTree = "<group>";
+		};
+		CEC6A90925311A0C00E08B97 /* ConversationView */ = {
+			isa = PBXGroup;
+			children = (
+				CE83FF4A252662CE002E7892 /* ConversationViewController.swift */,
+				CE83FF50252663AE002E7892 /* Message */,
+			);
+			path = ConversationView;
+			sourceTree = "<group>";
+		};
+		CEC6A90A25311A3400E08B97 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				CE8EC80D2518166400925741 /* ProfileViewController.swift */,
+				CEAB3ECD2523ECD700B4739F /* AvatarView */,
+			);
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +389,7 @@
 				CE83FF69252667B9002E7892 /* OutgoingMessageCell.xib in Resources */,
 				CE83FF57252663E0002E7892 /* IncomingMessageCell.xib in Resources */,
 				CE287295252402A6004FC310 /* ChatCell.xib in Resources */,
+				CE13AEE3252E4056009F02B2 /* ChatThemeView.xib in Resources */,
 				CEAB3EC92523E4B500B4739F /* AvatarView.xib in Resources */,
 				CE8EC8132518166700925741 /* Assets.xcassets in Resources */,
 				CE8EC8112518166400925741 /* Main.storyboard in Resources */,
@@ -354,15 +421,20 @@
 				CE83FF30252422A2002E7892 /* UIView.swift in Sources */,
 				CE8EC80E2518166400925741 /* ProfileViewController.swift in Sources */,
 				CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */,
+				CE4F830A252FD247009FA48D /* ThemeService.swift in Sources */,
 				CE83FF3D25242435002E7892 /* UserData.swift in Sources */,
 				CE8EC80A2518166400925741 /* AppDelegate.swift in Sources */,
 				CE83FF64252667AF002E7892 /* OutgoingMessageCell.swift in Sources */,
 				CE83FF52252663D6002E7892 /* IncomingMessageCell.swift in Sources */,
+				CE23C195252E6B7600C264B8 /* ChatThemeView.swift in Sources */,
 				CEAB3EC42523E47700B4739F /* AvatarView.swift in Sources */,
 				CE8EC80C2518166400925741 /* SceneDelegate.swift in Sources */,
+				CE13AED9252E3F18009F02B2 /* ThemesViewController.swift in Sources */,
 				CE28728825240111004FC310 /* ChatCell.swift in Sources */,
 				CE83FF5C25266406002E7892 /* MessageCellModel.swift in Sources */,
 				CE83FF3825242311002E7892 /* NSObject+Extensions.swift in Sources */,
+				CE4F83122530EB50009FA48D /* UserDefaults.swift in Sources */,
+				CE5E9F09252E7C7B00AF61BE /* ThemeModel.swift in Sources */,
 				CE83FF4B252662CE002E7892 /* ConversationViewController.swift in Sources */,
 				CE83FF4625265EBC002E7892 /* UIColor.swift in Sources */,
 			);

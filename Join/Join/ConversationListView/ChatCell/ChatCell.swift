@@ -15,6 +15,7 @@ class ChatCell: UITableViewCell, ConfigurationView {
     @IBOutlet var avatarImage: UIImageView!
     @IBOutlet var avatarContainerView: UIView!
     
+    let themeService = ThemeService()
     let avatarView = AvatarView.fromNib()
     var isOnline: Bool?
     var hasUnreadMessages: Bool?
@@ -57,18 +58,27 @@ class ChatCell: UITableViewCell, ConfigurationView {
         }
     }
     
+    func setupCurrentTheme() {
+        backgroundColor = themeService.currentTheme().backgroundColor
+        nameLabel.textColor = themeService.currentTheme().textColor
+        messageLabel.textColor = themeService.currentTheme().textColor
+        dateLabel.textColor = themeService.currentTheme().textColor
+    }
+    
     func configure(with model: ConversationModel) {
         nameLabel.text = model.name
         hasUnreadMessages = model.hasUnreadMessages
         avatarView.configure(model.name)
         date = model.date
-        isOnline = model.isOnline
-        if isOnline == true {
-            backgroundColor = .lightYellow
-        }
+//        isOnline = model.isOnline
+//        if isOnline == true {
+//            backgroundColor = .lightYellow
+//        } else {
+//            backgroundColor = themeService.currentTheme().backgroundColor
+//        }
         if hasUnreadMessages == true {
             messageLabel.text = model.message
-            messageLabel.font = .boldSystemFont(ofSize: 15)
+            messageLabel.font = .boldSystemFont(ofSize: 17)
         } else if model.message.isEmpty {
             messageLabel.text = "No messages yet"
             messageLabel.font = .italicSystemFont(ofSize: 15)
@@ -77,5 +87,7 @@ class ChatCell: UITableViewCell, ConfigurationView {
             dateLabel.text = currentTime(date: model.date)
         }
         dateLabel.text = currentTime(date: model.date)
+        setupCurrentTheme()
     }
 }
+

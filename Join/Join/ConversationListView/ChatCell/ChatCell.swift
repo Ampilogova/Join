@@ -41,7 +41,10 @@ class ChatCell: UITableViewCell, ConfigurationView {
         backgroundColor = nil
     }
     
-    private func currentTime(date: Date) -> String {
+    private func currentTime(date: Date?) -> String {
+        guard let date = date else {
+            return ""
+        }
         let dateFormatter = DateFormatter()
         let calendar = Calendar.current
         if calendar.isDateInYesterday(date) { return "Yesterday" }
@@ -65,28 +68,21 @@ class ChatCell: UITableViewCell, ConfigurationView {
         dateLabel.textColor = themeService.currentTheme().textColor
     }
     
-    func configure(with model: ConversationModel) {
+    func configure(with model: ChannelModel) {
         nameLabel.text = model.name
-        hasUnreadMessages = model.hasUnreadMessages
         avatarView.configure(model.name)
-        date = model.date
-//        isOnline = model.isOnline
-//        if isOnline == true {
-//            backgroundColor = .lightYellow
-//        } else {
-//            backgroundColor = themeService.currentTheme().backgroundColor
-//        }
+        date = model.lastActivity
         if hasUnreadMessages == true {
-            messageLabel.text = model.message
+            messageLabel.text = model.lastMessage
             messageLabel.font = .boldSystemFont(ofSize: 17)
-        } else if model.message.isEmpty {
+        } else if model.lastMessage?.isEmpty == false {
+            messageLabel.text = model.lastMessage
+            dateLabel.text = currentTime(date: model.lastActivity)
+        } else {
             messageLabel.text = "No messages yet"
             messageLabel.font = .italicSystemFont(ofSize: 15)
-        } else {
-            messageLabel.text = model.message
-            dateLabel.text = currentTime(date: model.date)
         }
-        dateLabel.text = currentTime(date: model.date)
+        dateLabel.text = currentTime(date: model.lastActivity)
         setupCurrentTheme()
     }
 }

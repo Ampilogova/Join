@@ -7,6 +7,9 @@ target 'Join' do
 
   # Pods for Join
   pod 'Firebase/Firestore'
+  pod 'Firebase/Core'
+  pod 'SwiftyJSON'
+  pod 'SwiftLint'
 
   target 'JoinTests' do
     inherit! :search_paths

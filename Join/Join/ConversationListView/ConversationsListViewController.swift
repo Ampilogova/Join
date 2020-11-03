@@ -6,51 +6,42 @@
 //
 
 import UIKit
+import Firebase
+import SwiftyJSON
 
 class ConversationsListViewController: UIViewController, UITableViewDelegate {
     
-    var chats = [ConversationModel(name: "Ronald Robertson", message: "Did you forget to place an order?", date: Calendar.current.date(byAdding: .weekday, value: -1, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: true),
-                 ConversationModel(name: "Martha Craig", message: "I'm good", date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: true),
-                 ConversationModel(name: "Arthur Bell", message: "let's go to the cinema?", date: Calendar.current.date(byAdding: .day, value: -6, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: true),
-                 ConversationModel(name: "Edna Castro", message: "Thanks!", date: Calendar.current.date(byAdding: .day, value: -10, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: true),
-                 ConversationModel(name: "Marisela de la Cruse", message: "yeah", date: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Stephanie Gilvania", message: "Do you want coffee?", date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: false),
-                 ConversationModel(name: "Valery Li", message: "", date: Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Larissa", message: "See you tomorrow!", date: Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Katie Ha", message: "", date: Date(), isOnline: true, hasUnreadMessages: false),
-                 ConversationModel(name: "Jane Warren", message: "Sound good", date: Calendar.current.date(byAdding: .hour, value: -2, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: false),
-                 ConversationModel(name: "Irma Flores", message: "I love it", date: Calendar.current.date(byAdding: .hour, value: -1, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: true),
-                 ConversationModel(name: "Lola li", message: "WoW!!!", date: Date(), isOnline: true, hasUnreadMessages: true),
-                 ConversationModel(name: "Irma Si", message: "I love it", date: Calendar.current.date(byAdding: .minute, value: -6, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: false),
-                 ConversationModel(name: "Iren Den", message: "i'm pretty close", date: Calendar.current.date(byAdding: .day, value: -14, to: Date()) ?? Date(), isOnline: true, hasUnreadMessages: false),
-                 ConversationModel(name: "Den Ring", message: "yes, I can", date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Ron Braun", message: "", date: Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Ron Kim", message: "👍", date: Calendar.current.date(byAdding: .hour, value: -5, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Tom Di", message: "lol", date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "Lola Moon", message: "no", date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: false),
-                 ConversationModel(name: "August Song", message: "Could you lend me a book for the weekend?", date: Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date(), isOnline: false, hasUnreadMessages: true),
-                 ConversationModel(name: "April", message: ")))", date: Date(), isOnline: false, hasUnreadMessages: true),
-    ]
-    var groups = [[ConversationModel]]()
+    lazy var db = Firestore.firestore()
+    lazy var reference = db.collection("channels")
+    
+    var chats = [ChannelModel]()
+
     let themeService = ThemeService()
     var chatTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         createTable()
-        createNavigationBar() 
-        groups = prepareDataSource()
+        createNavigationBar()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        subscribeToUpdates()
+    }
+    
     private func createNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Join"
+        title = "Channels"
         let settingsButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(presentSettingsButton))
         settingsButtonItem.tintColor = .gray
         self.navigationItem.leftBarButtonItem  = settingsButtonItem
         
         let profileButtonItem = UIBarButtonItem(image: UIImage(named: "user"), style: .plain, target: self, action: #selector(presentProfileButton))
+        let createChatButtonItem = UIBarButtonItem(image: UIImage(named: "addChat"), style: .plain, target: self, action: #selector(createChatButton))
         profileButtonItem.tintColor = .gray
-        self.navigationItem.rightBarButtonItem = profileButtonItem
+        createChatButtonItem.tintColor = .gray
+        self.navigationItem.rightBarButtonItems = [profileButtonItem, createChatButtonItem]
     }
     
     private func createTable() {
@@ -64,25 +55,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         chatTableView.dataSource = self
     }
     
-    func prepareDataSource() -> [[ConversationModel]] {
-        var online = [ConversationModel]()
-        var offline = [ConversationModel]()
-        for element in chats {
-            if element.isOnline == true {
-                online.append(element)
-            } else {
-                offline.append(element)
-            }
-        }
-        return [online, offline]
-    }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Online"
-        } else {
-            return "Offline"
-        }
-    }
     @objc func presentProfileButton() {
         self.performSegue(withIdentifier: "profileSegue", sender: nil)
     }
@@ -91,35 +63,64 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         self.performSegue(withIdentifier: "settingSegue", sender: nil)
     }
     
+    @objc func createChatButton() {
+        showAlert()
+    }
+    
+    func showAlert() {
+        let showAlert = UIAlertController(title: "Создайте чат", message: nil, preferredStyle: .alert)
+        showAlert.addTextField { (textField: UITextField!) in
+            textField.placeholder = "Введите название чата"
+        }
+        let okAction = UIAlertAction(title: "ok", style: .default) { action in
+            let text = showAlert.textFields?.first?.text ?? ""
+            let identifier = UUID().uuidString
+            //let identifier = UIDevice.current.identifierForVendor?.uuidString ?? ""
+            self.db.collection("channels").document().setData([
+                "name": text,
+                "identifier": identifier,
+                "lastActivity": Timestamp(date: Date())
+            ])
+        }
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+        showAlert.addAction(okAction)
+        showAlert.addAction(cancelAction)
+        present(showAlert, animated: true)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingSegue" {
             let destinationVC = segue.destination as? ThemesViewController
             destinationVC?.selectedTheme = { [weak self] theme in
                 self?.themeService.saveTheme(theme: theme)
                 self?.chatTableView.reloadData()
-                // если убрать [weak self] будут две сильные ссылки между viewControllers. каждый раз при переходе на viewController будет создаваться новый объект, а старый удаляться не будет. Из-за этого память будет заполняться.
             }
         }
     }
+    
+    private func subscribeToUpdates() {
+        reference.order(by: "lastActivity", descending: true ).addSnapshotListener { (querySnapshot, error) in
+            self.chats = querySnapshot?.documents.compactMap({
+                                                                ChannelModel.from($0.data(), id: $0.documentID) }) ?? []
+            self.chatTableView.reloadData()
+        }
+    }
 }
+
 
 // MARK: - Table view data source
 
 extension ConversationsListViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return groups.count
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups[section].count
+        return chats.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatCell.className, for: indexPath) as? ChatCell else {
             preconditionFailure("ChatCell can't to dequeued")
         }
-        let model = groups[indexPath.section][indexPath.row]
+        let model = chats[indexPath.row]
         cell.configure(with: model)
         
         return cell
@@ -127,8 +128,14 @@ extension ConversationsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let viewController = ConversationViewController()
-        viewController.name = groups[indexPath.section][indexPath.row].name
+        viewController.name = chats[indexPath.row].name
+        viewController.channel = chats[indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)
+        
+        db.collection("channels").document(chats[indexPath.row].identifier).collection("messages")
+            .getDocuments { (querySnapshot, error) in
+
+        }
     }
 }
 

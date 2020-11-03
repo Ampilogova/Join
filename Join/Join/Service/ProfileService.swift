@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfileService {
     
     let userDefaults = UserDefaults.standard
     
-    
+    var senderId = UUID()
+
     func saveUserData(profile: ProfileModel) {
         userDefaults.set(profile.name, forKey: "name")
         userDefaults.set(profile.info, forKey: "info")

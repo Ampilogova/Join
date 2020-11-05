@@ -21,29 +21,9 @@ class OutgoingMessageCell: UITableViewCell, ConfigurationView {
         outgoingMessageLabel.layer.cornerRadius = 6
         outgoingMessageLabel.layer.masksToBounds = true
         outgoingMessageLabel.backgroundColor = themeService.currentTheme().outgoing
-        dateLabel.text = currentTime(date: model.created)
+        dateLabel.text = model.created?.formatedTime()
         
         self.backgroundColor = .clear
     }
 }
-extension OutgoingMessageCell {
-    func currentTime(date: Date?) -> String {
-        guard let date = date else {
-            return ""
-        }
-        let dateFormatter = DateFormatter()
-        let calendar = Calendar.current
-        if calendar.isDateInYesterday(date) { return "Yesterday" }
-        else if calendar.isDateInToday(date) {
-            dateFormatter.dateFormat = "HH:mm"
-            dateFormatter.string(from: date)
-            let dateString = dateFormatter.string(from: date)
-            return dateString
-        } else {
-            dateFormatter.dateFormat = "dd-MMM"
-            dateFormatter.string(from: date)
-            let dateString = dateFormatter.string(from: date)
-            return dateString
-        }
-    }
-}
+

@@ -12,9 +12,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     typealias ConfigurationModel = ProfileModel
     
     @IBOutlet var editButton: UIButton!
-    @IBOutlet var saveGCDButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
     @IBOutlet var avatarContainerView: UIView!
-    @IBOutlet var saveOperationButton: UIButton!
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var userInfoTextView: UITextView!
     @IBOutlet var scrollView: UIScrollView!
@@ -24,15 +23,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let avatarView = AvatarView.fromNib()
     let themeService = ThemeService()
     let gcdManager = GCDDataManager()
-    let operationsManager = OperationDataManager()
     var oldModel: ProfileModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         userNameTextField.isUserInteractionEnabled = false
         userInfoTextView.isUserInteractionEnabled = false
-        saveGCDButton.isUserInteractionEnabled = false
-        saveOperationButton.isUserInteractionEnabled = false
+        saveButton.isUserInteractionEnabled = false
         avatarView.configure(userNameTextField.text ?? "")
         avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
         setupCurrentTheme()
@@ -40,13 +37,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         userInfoTextView.delegate = self
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGR)
-        
-        gcdManager.read { (model) in
-            self.userNameTextField.text = model.name
-            self.userInfoTextView.text = model.info
-            self.avatarView.avatarButton.setImage(model.image, for: .normal)
-            self.oldModel = model
-        }
+        fetchImage()
+        fetchName()
+    }
+    
+    func fetchImage() {
+//        let arr = StorageManager.shareInstance.fetchImage()
+        let arr = StorageManager.shareInstance.fetchProfile()
+        avatarView.avatarButton.setImage(UIImage(data: arr.last?.image?.img ?? Data()), for: .normal)
+    }
+    
+    func fetchName() {
+        let arr = StorageManager.shareInstance.fetchProfile()
+        userNameTextField.text = arr.last?.name
+        userInfoTextView.text = arr.last?.aboutUser
     }
     
     func setupCurrentTheme() {
@@ -86,10 +90,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             avatarView.topAnchor.constraint(equalTo: avatarContainerView.topAnchor),
             avatarView.bottomAnchor.constraint(equalTo: avatarContainerView.bottomAnchor)
         ])
-        saveGCDButton.layer.cornerRadius = 16
-        saveGCDButton.layer.masksToBounds = true
-        saveOperationButton.layer.cornerRadius = 16
-        saveOperationButton.layer.masksToBounds = true
+        saveButton.layer.cornerRadius = 16
+        saveButton.layer.masksToBounds = true
+
     }
     
     func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -160,23 +163,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
-    enum Source {
-        case gcd
-        case operation
-    }
-    private func unsuccessSaveAlert(source: Source) {
+
+    private func unsuccessSaveAlert() {
         let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "ОК", style: .default, handler: { _ in
             self.navigationController?.popViewController(animated: true)
         })
         
         let retryAction = UIAlertAction(title: "Повторить", style: .default, handler: { [self] _ in
-            switch source {
-            case .gcd:
-                checkAlertGCD()
-            case .operation:
-                checkAlertOp()
-            }
+            checkAlert()
         })
         
         alert.addAction(okAction)
@@ -184,41 +179,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         present(alert, animated: true, completion: nil)
     }
     
-    private func checkAlertGCD() {
+    private func checkAlert() {
         activityIndicator.startAnimating()
         let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
-        self.view.isUserInteractionEnabled = false
-        gcdManager.save(data: model) { (error) in
-            self.view.isUserInteractionEnabled = true
+        let newModel = Profile(context: StorageManager.shareInstance.context)
+        newModel.name = model.name
+        newModel.aboutUser = model.info
+        if let imageData = model.image?.pngData() {
+            newModel.image = Image(context: StorageManager.shareInstance.context)
+            newModel.image?.img = imageData
+        }
+        StorageManager.shareInstance.saveProfile(newModel) { (error) in
             if error == nil {
                 self.successSaveAlert()
             } else {
-                self.unsuccessSaveAlert(source: .gcd)
+                self.unsuccessSaveAlert()
             }
-            self.activityIndicator.stopAnimating()
         }
-    }
-    private func checkAlertOp() {
-        activityIndicator.startAnimating()
-        let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
-        self.view.isUserInteractionEnabled = false
-        operationsManager.save(data: model) { (error) in
-            self.view.isUserInteractionEnabled = true
-            if error == nil {
-                self.successSaveAlert()
-            } else {
-                self.unsuccessSaveAlert(source: .operation)
-            }
-            self.activityIndicator.stopAnimating()
-        }
+        self.activityIndicator.stopAnimating()
+        
     }
     
-    @IBAction func saveGCD(_ sender: Any) {
-        checkAlertGCD()
-    }
-    
-    @IBAction func saveOperation(_ sender: Any) {
-        checkAlertOp()
+    @IBAction func saveProfile(_ sender: Any) {
+        checkAlert()
     }
     
     // MARK: - UIImagePickerControllerDelegate
@@ -280,21 +263,14 @@ extension ProfileViewController : UITextViewDelegate, UITextFieldDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
         if model != oldModel {
-            saveGCDButton.isUserInteractionEnabled = true
-            saveOperationButton.isUserInteractionEnabled = true
+            saveButton.isUserInteractionEnabled = true
         } else {
-            saveGCDButton.isUserInteractionEnabled = false
-            saveOperationButton.isUserInteractionEnabled = false
+            saveButton.isUserInteractionEnabled = false
         }
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
-        if model != oldModel {
-            saveGCDButton.isUserInteractionEnabled = true
-        } else {
-            saveGCDButton.isUserInteractionEnabled = false
-        }
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//    
+//        return true
+//    }
 }

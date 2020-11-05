@@ -13,7 +13,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
     var name: String?
     var channel: ChannelModel?
     var chatTableView = UITableView()
-    let textField = UITextField()
+    var textField = UITextField()
     let themeService = ThemeService()
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
@@ -25,16 +25,38 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
         createNavigationBar()
         createTable()
         setupTextField()
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGR)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         subscribeToUpdates()
+    }
+    func scrollToBottom() {
+        DispatchQueue.main.async {
+            if self.messages.count > 0 {
+                let index = IndexPath(row: self.messages.count - 1, section: 0)
+                self.chatTableView.scrollToRow(at: index, at: .bottom, animated: true)
+            }
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func createTable() {
         chatTableView = UITableView(frame: view.bounds, style: .grouped)
         chatTableView.delegate = self
         chatTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        chatTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
         view.addSubview(chatTableView)
         
         let nibIncomingMessage = UINib(nibName: IncomingMessageCell.className, bundle: nil)
@@ -52,13 +74,16 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
         view.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            textField.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            textField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             textField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             textField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textField.heightAnchor.constraint(equalToConstant: 60)
+            textField.heightAnchor.constraint(equalToConstant: 50)
         ])
-        textField.backgroundColor = .red
+        textField.backgroundColor = .white
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.delegate = self
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -68,9 +93,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
             "content": textField.text ?? "",
             "created": Timestamp(date: Date()),
             "senderId": UIDevice.current.identifierForVendor?.uuidString ?? "",
-            "senderName": "Tatiana"
+            "senderName": "Lala"
         ])
-        
+        textField.text = nil
         return true
     }
     
@@ -86,7 +111,32 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
         reference.document(id).collection("messages").order(by: "created").addSnapshotListener { (querySnapshot, error) in
             self.messages = querySnapshot?.documents.compactMap({ MessageModel.from($0.data()) }) ?? []
             self.chatTableView.reloadData()
+            self.scrollToBottom()
         }
+    }
+    @objc func willShowKeyboard(_ notification: Notification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        else { return }
+        
+        var moveUp = false
+        
+        let bottomOfTextView = textField.convert(textField.bounds, to: self.view).maxY
+        let topOfKeyboard = self.view.frame.height - keyboardSize.height
+        
+        if bottomOfTextView > topOfKeyboard {
+            moveUp = true
+        }
+        if(moveUp) {
+            self.view.frame.origin.y = (0 - keyboardSize.height) + 25
+        }
+    }
+    
+    @objc func willHideKeyboard(_ notification: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    @objc func viewTapped() {
+        view.endEditing(true)
     }
 }
 

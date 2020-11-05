@@ -103,6 +103,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
             self.chats = querySnapshot?.documents.compactMap({
                                                                 ChannelModel.from($0.data(), id: $0.documentID) }) ?? []
             self.chatTableView.reloadData()
+            StorageManager.shareInstance.saveContext()
         }
     }
 }

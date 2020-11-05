@@ -16,13 +16,11 @@
 		CE2872802523F2C2004FC310 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */; };
 		CE28728825240111004FC310 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28728725240111004FC310 /* ChatCell.swift */; };
 		CE287295252402A6004FC310 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE287294252402A6004FC310 /* ChatCell.xib */; };
-		CE32A51825364D3800662713 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32A51725364D3800662713 /* ProfileService.swift */; };
 		CE32A51D25364D7E00662713 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32A51C25364D7E00662713 /* ProfileData.swift */; };
 		CE4F830A252FD247009FA48D /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F8309252FD247009FA48D /* ThemeService.swift */; };
 		CE4F83122530EB50009FA48D /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F83112530EB50009FA48D /* UserDefaults.swift */; };
 		CE5E9F09252E7C7B00AF61BE /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5E9F08252E7C7B00AF61BE /* ThemeModel.swift */; };
 		CE6724C925390CE4007EC71B /* GCDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6724C825390CE4007EC71B /* GCDDataManager.swift */; };
-		CE6724CE25390D01007EC71B /* OperationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6724CD25390D01007EC71B /* OperationDataManager.swift */; };
 		CE83FF30252422A2002E7892 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF2F252422A2002E7892 /* UIView.swift */; };
 		CE83FF3825242311002E7892 /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF3725242311002E7892 /* NSObject+Extensions.swift */; };
 		CE83FF4625265EBC002E7892 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83FF4525265EBB002E7892 /* UIColor.swift */; };
@@ -47,6 +45,8 @@
 		CEAB3EC92523E4B500B4739F /* AvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEAB3EC82523E4B500B4739F /* AvatarView.xib */; };
 		CEB396582548D77000181590 /* JSONParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB396572548D77000181590 /* JSONParsable.swift */; };
 		CEBD3B642550D1B20016B41C /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD3B632550D1B20016B41C /* DateFormatter.swift */; };
+		CEFA3BF82551EC4400B3B487 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEFA3BF62551EC4400B3B487 /* DataModel.xcdatamodeld */; };
+		CEFA3BFD2551F47C00B3B487 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA3BFC2551F47C00B3B487 /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,13 +81,11 @@
 		CE28727F2523F2C2004FC310 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		CE28728725240111004FC310 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		CE287294252402A6004FC310 /* ChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
-		CE32A51725364D3800662713 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		CE32A51C25364D7E00662713 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
 		CE4F8309252FD247009FA48D /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
 		CE4F83112530EB50009FA48D /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		CE5E9F08252E7C7B00AF61BE /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		CE6724C825390CE4007EC71B /* GCDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDDataManager.swift; sourceTree = "<group>"; };
-		CE6724CD25390D01007EC71B /* OperationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDataManager.swift; sourceTree = "<group>"; };
 		CE83FF2F252422A2002E7892 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		CE83FF3725242311002E7892 /* NSObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
 		CE83FF4525265EBB002E7892 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -118,6 +116,8 @@
 		CEAB3EC82523E4B500B4739F /* AvatarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvatarView.xib; sourceTree = "<group>"; };
 		CEB396572548D77000181590 /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
 		CEBD3B632550D1B20016B41C /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		CEFA3BF72551EC4400B3B487 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		CEFA3BFC2551F47C00B3B487 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E447C03B668A88E159939D55 /* Pods-Join-JoinUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Join-JoinUITests.release.xcconfig"; path = "Target Support Files/Pods-Join-JoinUITests/Pods-Join-JoinUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,10 +308,10 @@
 			isa = PBXGroup;
 			children = (
 				CE83FF6E252695DB002E7892 /* Configurable.swift */,
+				CEFA3BF62551EC4400B3B487 /* DataModel.xcdatamodeld */,
 				CE6724C825390CE4007EC71B /* GCDDataManager.swift */,
-				CE6724CD25390D01007EC71B /* OperationDataManager.swift */,
+				CEFA3BFC2551F47C00B3B487 /* StorageManager.swift */,
 				CE4F8309252FD247009FA48D /* ThemeService.swift */,
-				CE32A51725364D3800662713 /* ProfileService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -617,7 +617,6 @@
 				CE83FF64252667AF002E7892 /* OutgoingMessageCell.swift in Sources */,
 				CE83FF52252663D6002E7892 /* IncomingMessageCell.swift in Sources */,
 				CEB396582548D77000181590 /* JSONParsable.swift in Sources */,
-				CE6724CE25390D01007EC71B /* OperationDataManager.swift in Sources */,
 				CE9903982548CD1C0097FE4C /* ChannelModel.swift in Sources */,
 				CE23C195252E6B7600C264B8 /* ChatThemeView.swift in Sources */,
 				CEAB3EC42523E47700B4739F /* AvatarView.swift in Sources */,
@@ -627,10 +626,11 @@
 				CE99039D2548CD8D0097FE4C /* MessageModel.swift in Sources */,
 				CE83FF3825242311002E7892 /* NSObject+Extensions.swift in Sources */,
 				CE4F83122530EB50009FA48D /* UserDefaults.swift in Sources */,
+				CEFA3BFD2551F47C00B3B487 /* StorageManager.swift in Sources */,
 				CE5E9F09252E7C7B00AF61BE /* ThemeModel.swift in Sources */,
 				CE83FF4B252662CE002E7892 /* ConversationViewController.swift in Sources */,
+				CEFA3BF82551EC4400B3B487 /* DataModel.xcdatamodeld in Sources */,
 				CE83FF4625265EBC002E7892 /* UIColor.swift in Sources */,
-				CE32A51825364D3800662713 /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,6 +965,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CEFA3BF62551EC4400B3B487 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CEFA3BF72551EC4400B3B487 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = CEFA3BF72551EC4400B3B487 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CE8EC7FE2518166400925741 /* Project object */;
 }

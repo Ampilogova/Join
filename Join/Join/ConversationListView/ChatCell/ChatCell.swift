@@ -68,9 +68,9 @@ class ChatCell: UITableViewCell, ConfigurationView {
         dateLabel.textColor = themeService.currentTheme().textColor
     }
     
-    func configure(with model: ChannelModel) {
+    func configure(with model: Channel) {
         nameLabel.text = model.name
-        avatarView.configure(model.name)
+        avatarView.configure(model.name ?? "")
         date = model.lastActivity
         if hasUnreadMessages == true {
             messageLabel.text = model.lastMessage

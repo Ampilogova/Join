@@ -38,11 +38,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGR)
         fetchImage()
-        fetchName()
+//        fetchName()
+        setupFields()
     }
     
     func fetchImage() {
-//        let arr = StorageManager.shareInstance.fetchImage()
         let arr = StorageManager.shareInstance.fetchProfile()
         avatarView.avatarButton.setImage(UIImage(data: arr.last?.image?.img ?? Data()), for: .normal)
     }
@@ -51,6 +51,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let arr = StorageManager.shareInstance.fetchProfile()
         userNameTextField.text = arr.last?.name
         userInfoTextView.text = arr.last?.aboutUser
+    }
+    func setupFields() {
+        let arr = StorageManager.shareInstance.fetchProfile()
+        if !arr.isEmpty {
+            userNameTextField.text = arr.last?.name
+            userInfoTextView.text = arr.last?.aboutUser
+        } else {
+            userNameTextField.placeholder = "Name"
+            userInfoTextView.text = "about you"
+        }
     }
     
     func setupCurrentTheme() {
@@ -159,11 +169,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         let okAction = UIAlertAction(title: "ОК", style: .default, handler: { _ in
             self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
         })
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
+        
     }
-
+    
     private func unsuccessSaveAlert() {
         let alert = UIAlertController(title: "Ошибка", message: "Не удалось сохранить данные", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "ОК", style: .default, handler: { _ in
@@ -268,9 +280,4 @@ extension ProfileViewController : UITextViewDelegate, UITextFieldDelegate {
             saveButton.isUserInteractionEnabled = false
         }
     }
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//    
-//        return true
-//    }
 }

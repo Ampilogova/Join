@@ -7,15 +7,16 @@
 
 import UIKit
 import Firebase
+import CoreData
 import SwiftyJSON
 
 class ConversationsListViewController: UIViewController, UITableViewDelegate {
     
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
-    
     var chats = [ChannelModel]()
-
+    var fetchedResultController: NSFetchedResultsController<Channel>?
+    
     let themeService = ThemeService()
     var chatTableView = UITableView()
     
@@ -28,6 +29,24 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         subscribeToUpdates()
+        loadSavedData()
+    }
+    
+    func loadSavedData() {
+        if fetchedResultController == nil {
+            let request = NSFetchRequest<Channel>(entityName: "Channel")
+            let sort = NSSortDescriptor(key: "lastActivity", ascending: false)
+            request.sortDescriptors = [sort]
+            
+            fetchedResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: StorageManager.shareInstance.context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultController?.delegate = self
+        }
+        do {
+            try fetchedResultController?.performFetch()
+            chatTableView.reloadData()
+        } catch {
+            print("Fetch failed")
+        }
     }
     
     private func createNavigationBar() {
@@ -75,7 +94,6 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         let okAction = UIAlertAction(title: "ok", style: .default) { action in
             let text = showAlert.textFields?.first?.text ?? ""
             let identifier = UUID().uuidString
-            //let identifier = UIDevice.current.identifierForVendor?.uuidString ?? ""
             self.db.collection("channels").document().setData([
                 "name": text,
                 "identifier": identifier,
@@ -103,7 +121,25 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
             self.chats = querySnapshot?.documents.compactMap({
                                                                 ChannelModel.from($0.data(), id: $0.documentID) }) ?? []
             self.chatTableView.reloadData()
+            StorageManager.shareInstance.deleteChannels()
+            for chat in self.chats {
+                let channel = Channel(context: StorageManager.shareInstance.context)
+                channel.identifier = chat.identifier
+                channel.lastMessage = chat.lastMessage
+                channel.name = chat.name
+                channel.lastActivity = chat.lastActivity
+            }
             StorageManager.shareInstance.saveContext()
+        }
+    }
+    
+    private func deleteData(identifier: String) {
+        reference.document(identifier).delete() { (err) in
+            if err != nil {
+                print("error")
+            } else {
+                print("deleted")
+            }
         }
     }
 }
@@ -114,28 +150,35 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
 extension ConversationsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chats.count
+        let sectionInfo = fetchedResultController?.sections?[section]
+        return sectionInfo?.numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatCell.className, for: indexPath) as? ChatCell else {
             preconditionFailure("ChatCell can't to dequeued")
         }
-        let model = chats[indexPath.row]
-        cell.configure(with: model)
+        let channel = fetchedResultController?.object(at: indexPath)
+        cell.configure(with: channel ?? Channel())
         
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let viewController = ConversationViewController()
-        viewController.name = chats[indexPath.row].name
-        viewController.channel = chats[indexPath.row]
+        viewController.name = fetchedResultController?.object(at: indexPath).name
+        viewController.channel = fetchedResultController?.object(at: indexPath)
+        viewController.id = fetchedResultController?.object(at: indexPath).identifier ?? ""
         self.navigationController?.pushViewController(viewController, animated: true)
-        
-        db.collection("channels").document(chats[indexPath.row].identifier).collection("messages")
-            .getDocuments { (querySnapshot, error) in
-
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let channel = fetchedResultController?.object(at: indexPath)
+            StorageManager.shareInstance.context.delete(channel ?? Channel())
+            deleteData(identifier: fetchedResultController?.object(at: indexPath).identifier ?? "")
+            StorageManager.shareInstance.saveContext()
         }
     }
 }

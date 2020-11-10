@@ -7,18 +7,20 @@
 
 import UIKit
 import Firebase
+import CoreData
 
-class ConversationViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate {
+class ConversationViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate, NSFetchedResultsControllerDelegate {
     
     var name: String?
-    var channel: ChannelModel?
+    var channel: Channel?
     var chatTableView = UITableView()
     var textField = UITextField()
     let themeService = ThemeService()
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
-    
+    var id = String()
     var messages = [MessageModel]()
+    var fetchedResultController: NSFetchedResultsController<Message>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +33,26 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         subscribeToUpdates()
+        loadSavedData()
     }
+    
+    func loadSavedData() {
+        if fetchedResultController == nil {
+            let request = NSFetchRequest<Message>(entityName: "Message")
+            let sort = NSSortDescriptor(key: "created", ascending: true)
+            request.sortDescriptors = [sort]
+            
+            fetchedResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: StorageManager.shareInstance.context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultController?.delegate = self
+        }
+        do {
+            try fetchedResultController?.performFetch()
+            chatTableView.reloadData()
+        } catch {
+            print("Fetch failed")
+        }
+    }
+    
     func scrollToBottom() {
         DispatchQueue.main.async {
             if self.messages.count > 0 {
@@ -40,6 +61,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
             }
         }
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -88,7 +110,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        let id = channel?.identifier ?? ""
+        let id = self.id
         reference.document(id).collection("messages").document().setData([
             "content": textField.text ?? "",
             "created": Timestamp(date: Date()),
@@ -105,15 +127,22 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
     }
     
     private func subscribeToUpdates() {
-        guard let id = channel?.identifier, !id.isEmpty else {
-            return
-        }
-        reference.document(id).collection("messages").order(by: "created").addSnapshotListener { (querySnapshot, error) in
+        reference.document(self.id).collection("messages").order(by: "created").addSnapshotListener { (querySnapshot, error) in
             self.messages = querySnapshot?.documents.compactMap({ MessageModel.from($0.data()) }) ?? []
             self.chatTableView.reloadData()
             self.scrollToBottom()
+            StorageManager.shareInstance.deleteMessages()
+            for mes in self.messages {
+                let message = Message(context: StorageManager.shareInstance.context)
+                message.senderId = mes.senderId
+                message.content = mes.content
+                message.senderName = mes.senderName
+                message.created = mes.created
+            }
+            StorageManager.shareInstance.saveContext()
         }
     }
+    
     @objc func willShowKeyboard(_ notification: Notification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
@@ -144,22 +173,27 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITextF
 extension ConversationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        let sectionInfo = fetchedResultController?.sections?[section]
+        return sectionInfo?.numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if messages[indexPath.row].senderId == UIDevice.current.identifierForVendor?.uuidString {
+        if fetchedResultController?.object(at: indexPath).senderId == UIDevice.current.identifierForVendor?.uuidString {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OutgoingMessageCell.className, for: indexPath) as? OutgoingMessageCell else { preconditionFailure("OutgoingMessageCell can't to dequeued") }
-            let model = messages[indexPath.row]
-            cell.configure(with: model)
+            let message = fetchedResultController?.object(at: indexPath)
+            cell.configure(with: message ?? Message())
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: IncomingMessageCell.className, for: indexPath) as? IncomingMessageCell else { preconditionFailure("IncomingMessageCell can't to dequeued") }
-            let model = messages[indexPath.row]
-            cell.configure(with: model)
+            let message = fetchedResultController?.object(at: indexPath)
+            cell.configure(with: message ?? Message())
             return cell
         }
     }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        chatTableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

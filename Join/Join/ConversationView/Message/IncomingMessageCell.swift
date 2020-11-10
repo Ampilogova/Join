@@ -11,12 +11,14 @@ class IncomingMessageCell: UITableViewCell, ConfigurationView {
     
     @IBOutlet var incomingMessageLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var nameLabel: UILabel!
     
     let themeService = ThemeService()
     
-    typealias ConfigurationModel = MessageModel
+    typealias ConfigurationModel = Message
     
-    func configure(with model: MessageModel) {
+    func configure(with model: Message) {
+        nameLabel.text = model.senderName
         incomingMessageLabel.text = model.content
         incomingMessageLabel.layer.cornerRadius = 6
         incomingMessageLabel.layer.masksToBounds = true

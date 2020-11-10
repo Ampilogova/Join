@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI4-Rc-dOe">
-                        <rect key="frame" x="20" y="16" width="311" height="68"/>
+                        <rect key="frame" x="20" y="25" width="311" height="59"/>
                         <attributedString key="attributedText">
                             <fragment content="Label">
                                 <attributes>
@@ -35,19 +35,28 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HH7-vD-cGw">
+                        <rect key="frame" x="20" y="9" width="35.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="3YZ-UL-JfQ" secondAttribute="trailing" constant="89" id="1OO-dX-aig"/>
                     <constraint firstItem="AI4-Rc-dOe" firstAttribute="leading" secondItem="jcF-xZ-w1c" secondAttribute="leading" constant="20" id="7sa-YW-1X3"/>
-                    <constraint firstItem="AI4-Rc-dOe" firstAttribute="top" secondItem="jcF-xZ-w1c" secondAttribute="top" constant="16" id="922-RT-tuA"/>
+                    <constraint firstItem="AI4-Rc-dOe" firstAttribute="top" secondItem="jcF-xZ-w1c" secondAttribute="top" constant="25" id="922-RT-tuA"/>
                     <constraint firstAttribute="bottom" secondItem="3YZ-UL-JfQ" secondAttribute="bottom" constant="5" id="A3o-QH-Ck0"/>
                     <constraint firstAttribute="trailing" secondItem="AI4-Rc-dOe" secondAttribute="trailing" constant="89" id="AIM-M5-3o3"/>
+                    <constraint firstItem="HH7-vD-cGw" firstAttribute="leading" secondItem="jcF-xZ-w1c" secondAttribute="leading" constant="20" id="jC2-iz-TYb"/>
                     <constraint firstAttribute="bottom" secondItem="AI4-Rc-dOe" secondAttribute="bottom" constant="16" id="kWx-s2-YBq"/>
+                    <constraint firstItem="HH7-vD-cGw" firstAttribute="top" secondItem="jcF-xZ-w1c" secondAttribute="top" constant="9" id="tzL-UV-Kdp"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="3YZ-UL-JfQ" id="TvR-r7-mGr"/>
                 <outlet property="incomingMessageLabel" destination="AI4-Rc-dOe" id="98h-B9-A1k"/>
+                <outlet property="nameLabel" destination="HH7-vD-cGw" id="t9Z-YS-slv"/>
             </connections>
             <point key="canvasLocation" x="34.782608695652179" y="-299.33035714285711"/>
         </tableViewCell>

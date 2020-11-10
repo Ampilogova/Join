@@ -5,10 +5,18 @@
         <attribute name="lastActivity" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastMessage" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="message" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Message"/>
     </entity>
     <entity name="Image" representedClassName=".Image" syncable="YES" codeGenerationType="class">
         <attribute name="img" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="image" inverseEntity="Profile"/>
+    </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="senderId" optional="YES" attributeType="String"/>
+        <attribute name="senderName" optional="YES" attributeType="String"/>
+        <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel"/>
     </entity>
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
         <attribute name="aboutUser" optional="YES" attributeType="String"/>
@@ -16,8 +24,9 @@
         <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="profile" inverseEntity="Image"/>
     </entity>
     <elements>
+        <element name="Channel" positionX="-63" positionY="27" width="128" height="118"/>
         <element name="Image" positionX="-54" positionY="18" width="128" height="73"/>
+        <element name="Message" positionX="-63" positionY="36" width="128" height="118"/>
         <element name="Profile" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="Channel" positionX="-63" positionY="27" width="128" height="103"/>
     </elements>
 </model>

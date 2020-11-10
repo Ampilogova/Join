@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tcQ-Sr-Wvt">
-                        <rect key="frame" x="89" y="16" width="311" height="68"/>
+                        <rect key="frame" x="89" y="25" width="311" height="59"/>
                         <attributedString key="attributedText">
                             <fragment content="Label">
                                 <attributes>
@@ -35,11 +35,19 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KjA-1Z-G0J">
+                        <rect key="frame" x="362" y="9" width="38" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tcQ-Sr-Wvt" firstAttribute="leading" secondItem="Jgq-Dk-tiF" secondAttribute="leading" constant="89" id="4LY-uy-x4a"/>
-                    <constraint firstItem="tcQ-Sr-Wvt" firstAttribute="top" secondItem="Jgq-Dk-tiF" secondAttribute="top" constant="16" id="ClF-bN-GPm"/>
+                    <constraint firstItem="tcQ-Sr-Wvt" firstAttribute="top" secondItem="Jgq-Dk-tiF" secondAttribute="top" constant="25" id="ClF-bN-GPm"/>
+                    <constraint firstItem="KjA-1Z-G0J" firstAttribute="top" secondItem="Jgq-Dk-tiF" secondAttribute="top" constant="9" id="KYV-j3-uOz"/>
                     <constraint firstAttribute="bottom" secondItem="9RE-aX-cko" secondAttribute="bottom" constant="5" id="TY7-eZ-oxc"/>
+                    <constraint firstAttribute="trailing" secondItem="KjA-1Z-G0J" secondAttribute="trailing" constant="20" id="XmZ-Vj-3No"/>
                     <constraint firstAttribute="bottom" secondItem="tcQ-Sr-Wvt" secondAttribute="bottom" constant="16" id="ZgN-hP-wxH"/>
                     <constraint firstAttribute="trailing" secondItem="9RE-aX-cko" secondAttribute="trailing" constant="9" id="a6F-eH-W72"/>
                     <constraint firstAttribute="trailing" secondItem="tcQ-Sr-Wvt" secondAttribute="trailing" constant="20" id="ddA-wM-hS8"/>
@@ -47,6 +55,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="9RE-aX-cko" id="1lr-uJ-nhX"/>
+                <outlet property="nameLabel" destination="KjA-1Z-G0J" id="KKn-nr-W6u"/>
                 <outlet property="outgoingMessageLabel" destination="tcQ-Sr-Wvt" id="rMO-mc-kww"/>
             </connections>
             <point key="canvasLocation" x="-384" y="12"/>

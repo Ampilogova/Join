@@ -9,33 +9,13 @@ import UIKit
 import CoreData
 
 class StorageManager {
+    
     static let shareInstance = StorageManager()
     let context = (UIApplication.shared.connectedScenes
                     .first!.delegate as! SceneDelegate).persistentContainer.viewContext
     
-//    func saveContext(data: Data, name: String, info: String, completion: @escaping (Error?) -> Void) {
-//        let imageInstance = Image(context: context)
-//        imageInstance.img = data
-//        do {
-//            try context.save()
-//            print("Data is saved")
-//        } catch {
-//            completion(error)
-//            print(error.localizedDescription)
-//        }
-//    }
-    
-//    func fetchImage() -> [Image] {
-//        var fetchingImage = [Image]()
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
-//        do {
-//            fetchingImage = try context.fetch(fetchRequest) as! [Image]
-//        } catch {
-//            print("Error while fetching the image")
-//        }
-//
-//        return fetchingImage
-//    }
+    let fetchRequestChannel = NSFetchRequest<Channel>(entityName: "Channel")
+    let fetchRequestMessage = NSFetchRequest<Message>(entityName: "Message")
     
     func saveProfile(_ profile: Profile, completion: @escaping (Error?) -> Void) {
         do {
@@ -47,10 +27,35 @@ class StorageManager {
             print(error.localizedDescription)
         }
     }
+    
+    func deleteChannels() {
+        do {
+            let channels = try context.fetch(fetchRequestChannel)
+            for channel in channels {
+                context.delete(channel)
+            }
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteMessages() {
+        do {
+            let messages = try context.fetch(fetchRequestMessage)
+            for message in messages {
+                context.delete(message)
+            }
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     func saveContext() {
         do {
             try context.save()
-            print("Profile is saved")
+            print("Context is saved")
         } catch {
             print(error.localizedDescription)
         }
@@ -64,7 +69,8 @@ class StorageManager {
         } catch {
             print("Error while fetching the image")
         }
-
+        
         return fetchingProfile
     }
 }
+

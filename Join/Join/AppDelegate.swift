@@ -12,14 +12,10 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    let stack = StorageManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? "Not Found")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            
-        }
         
         return true
     }

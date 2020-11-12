@@ -19,7 +19,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    
     let avatarView = AvatarView.fromNib()
     let themeService = ThemeService()
     let gcdManager = GCDDataManager()
@@ -27,36 +26,31 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userNameTextField.isUserInteractionEnabled = false
-        userInfoTextView.isUserInteractionEnabled = false
-        saveButton.isUserInteractionEnabled = false
-        avatarView.configure(userNameTextField.text ?? "")
         avatarView.avatarButton.addTarget(self, action: #selector(setupAvatar), for: .touchUpInside)
+        saveButton.isUserInteractionEnabled = false
         setupCurrentTheme()
-        userNameTextField.delegate = self
-        userInfoTextView.delegate = self
-        let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        view.addGestureRecognizer(tapGR)
+        tapGR()
         fetchImage()
-//        fetchName()
         setupFields()
     }
     
     func fetchImage() {
-        let arr = StorageManager.shareInstance.fetchProfile()
-        avatarView.avatarButton.setImage(UIImage(data: arr.last?.image?.img ?? Data()), for: .normal)
+        let fetchProfile = StorageManager.shareInstance.fetchProfile()
+        avatarView.configure(userNameTextField.text ?? "")
+        if let imageData = fetchProfile.last?.image?.img {
+            avatarView.avatarButton.setImage(UIImage(data: imageData), for: .normal)
+        }
     }
     
-    func fetchName() {
-        let arr = StorageManager.shareInstance.fetchProfile()
-        userNameTextField.text = arr.last?.name
-        userInfoTextView.text = arr.last?.aboutUser
-    }
     func setupFields() {
-        let arr = StorageManager.shareInstance.fetchProfile()
-        if !arr.isEmpty {
-            userNameTextField.text = arr.last?.name
-            userInfoTextView.text = arr.last?.aboutUser
+        userNameTextField.isUserInteractionEnabled = false
+        userInfoTextView.isUserInteractionEnabled = false
+        userNameTextField.delegate = self
+        userInfoTextView.delegate = self
+        let fetchProfile = StorageManager.shareInstance.fetchProfile()
+        if !fetchProfile.isEmpty {
+            userNameTextField.text = fetchProfile.last?.name
+            userInfoTextView.text = fetchProfile.last?.aboutUser
         } else {
             userNameTextField.placeholder = "Name"
             userInfoTextView.text = "about you"
@@ -70,6 +64,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         userInfoTextView.backgroundColor = themeService.currentTheme().backgroundColor
         userInfoTextView.textColor = themeService.currentTheme().textColor
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -77,16 +72,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,7 +87,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         ])
         saveButton.layer.cornerRadius = 16
         saveButton.layer.masksToBounds = true
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -113,6 +107,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         textField.resignFirstResponder()
         return true
     }
+    
+    func configure(with model: ProfileModel) {
+        userNameTextField.text = model.name
+        userInfoTextView.text = model.info
+        avatarView.avatarButton.setImage(model.image, for: .normal)
+    }
+    // MARK: - Actions
     
     @IBAction func editAction(_ sender: Any) {
         userNameTextField.isUserInteractionEnabled = true
@@ -156,12 +157,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             popoverController.permittedArrowDirections = []
         }
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func configure(with model: ProfileModel) {
-        userNameTextField.text = model.name
-        userInfoTextView.text = model.info
-        avatarView.avatarButton.setImage(model.image, for: .normal)
     }
     
     private func successSaveAlert() {
@@ -209,7 +204,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
         }
         self.activityIndicator.stopAnimating()
-        
     }
     
     @IBAction func saveProfile(_ sender: Any) {
@@ -255,26 +249,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func viewTapped() {
         view.endEditing(true)
     }
+    
+    func tapGR() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGR)
+    }
 }
 
 extension ProfileViewController : UITextViewDelegate, UITextFieldDelegate {
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        self.userInfoTextView = textView
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        self.userInfoTextView = textView
-    }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.userNameTextField = textField
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.userNameTextField = textField
+    func textField(_ textField: UITextField,
+                            shouldChangeCharactersIn range: NSRange,
+                            replacementString string: String) -> Bool {
+        let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
+        if model.name != oldModel?.name || model.info != oldModel?.info || model.image != oldModel?.image {
+            saveButton.isUserInteractionEnabled = true
+        } else {
+            saveButton.isUserInteractionEnabled = false
+        }
+        return true
     }
     
     func textViewDidChange(_ textView: UITextView) {
         let model = ProfileModel(name: userNameTextField.text ?? "", info: userInfoTextView.text, image: avatarView.avatarButton.currentImage)
-        if model != oldModel {
+        if model.name != oldModel?.name || model.info != oldModel?.info || model.image != oldModel?.image {
             saveButton.isUserInteractionEnabled = true
         } else {
             saveButton.isUserInteractionEnabled = false

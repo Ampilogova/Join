@@ -10,7 +10,7 @@ import Firebase
 import CoreData
 import SwiftyJSON
 
-class ConversationsListViewController: UIViewController, UITableViewDelegate {
+class ConversationsListViewController: UIViewController, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
@@ -30,6 +30,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         super.viewDidAppear(animated)
         subscribeToUpdates()
         loadSavedData()
+        setupCurrentTheme()
     }
     
     func loadSavedData() {
@@ -61,6 +62,7 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
         profileButtonItem.tintColor = .gray
         createChatButtonItem.tintColor = .gray
         self.navigationItem.rightBarButtonItems = [profileButtonItem, createChatButtonItem]
+        
     }
     
     private func createTable() {
@@ -114,6 +116,11 @@ class ConversationsListViewController: UIViewController, UITableViewDelegate {
                 self?.chatTableView.reloadData()
             }
         }
+    }
+    func setupCurrentTheme() {
+        navigationController?.navigationBar.backgroundColor = themeService.currentTheme().backgroundColor
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: themeService.currentTheme().textColor]
+        
     }
     
     private func subscribeToUpdates() {
@@ -180,6 +187,9 @@ extension ConversationsListViewController: UITableViewDataSource {
             deleteData(identifier: fetchedResultController?.object(at: indexPath).identifier ?? "")
             StorageManager.shareInstance.saveContext()
         }
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        chatTableView.reloadData()
     }
 }
 
